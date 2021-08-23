@@ -1,0 +1,13 @@
+const express = require('express');
+const app = express();
+const PORT = process.env.PORT || 6890;
+
+app.set('view engine', 'ejs');
+
+app.get('/', (req, res) => {
+  res.render('index');
+});
+
+app.listen(PORT, () =>
+  console.log(`server started at http://localhost:${PORT}`)
+);
