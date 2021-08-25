@@ -8,7 +8,6 @@ router.get('/new', (req, res) => {
 router.get('/:id', async (req, res) => {
   const { id } = req.params;
   const article = await Article.findById(id);
-  console.log(article);
   res.render('articles/show', { article: article });
 });
 router.get('/edit/:id', async (req, res) => {
