@@ -8,14 +8,24 @@ router.get('/new', (req, res) => {
 
 router.get('/:slug', async (req, res) => {
   const { slug } = req.params;
-  const article = await Article.findOne({ slug });
-  res.render('articles/show', { article: article });
+  try {
+    const article = await Article.findOne({ slug });
+    res.render('articles/show', { article: article });
+  } catch (err) {
+    console.log(err);
+    res.redirect('/');
+  }
 });
 
-router.get('/edit/:id', async (req, res) => {
-  const { id } = req.params;
-  const article = await Article.findById(id);
-  res.render('articles/edit', { article: article });
+router.get('/edit/:slug', async (req, res) => {
+  const { slug } = req.params;
+  try {
+    const article = await Article.findOne({ slug });
+    res.render('articles/edit', { article: article });
+  } catch (err) {
+    console.log(err);
+    res.redirect('/');
+  }
 });
 
 router.post('/', async (req, res) => {
@@ -40,11 +50,27 @@ router.delete('/:id', async (req, res) => {
   const { id } = req.params;
   try {
     await Article.findByIdAndDelete(id);
+    res.redirect('/');
   } catch (err) {
     console.log(err);
     res.status(400).redirect('/');
   }
-  res.redirect('/');
+});
+
+router.put('/:id', async (req, res) => {
+  const { id } = req.params;
+  const { title, description, markdown } = req.body;
+  try {
+    await Article.findByIdAndUpdate(id, {
+      title,
+      description,
+      markdown,
+    });
+    res.redirect('/');
+  } catch (err) {
+    console.log(err);
+    res.redirect('/');
+  }
 });
 
 module.exports = router;
