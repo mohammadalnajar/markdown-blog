@@ -5,16 +5,19 @@ const router = express.Router();
 router.get('/new', (req, res) => {
   res.render('articles/new', { article: new Article() });
 });
+
 router.get('/:slug', async (req, res) => {
   const { slug } = req.params;
   const article = await Article.findOne({ slug });
   res.render('articles/show', { article: article });
 });
+
 router.get('/edit/:id', async (req, res) => {
   const { id } = req.params;
   const article = await Article.findById(id);
   res.render('articles/edit', { article: article });
 });
+
 router.post('/', async (req, res) => {
   const { title, description, markdown } = req.body;
   let article = new Article({
@@ -43,4 +46,5 @@ router.delete('/:id', async (req, res) => {
   }
   res.redirect('/');
 });
+
 module.exports = router;
