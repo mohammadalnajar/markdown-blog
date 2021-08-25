@@ -4,6 +4,7 @@ const Article = require('./models/article');
 const mongoose = require('mongoose');
 const PORT = process.env.PORT || 6890;
 const articlesRouter = require('./routes/articles');
+const methodOverride = require('method-override');
 
 mongoose.connect('mongodb://localhost/blog', {
   useNewUrlParser: true,
@@ -14,6 +15,7 @@ mongoose.connect('mongodb://localhost/blog', {
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(methodOverride('_method'));
 app.set('view engine', 'ejs');
 app.use('/articles', articlesRouter);
 

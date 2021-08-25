@@ -31,4 +31,15 @@ router.post('/', async (req, res) => {
     res.render('articles/new', { article: article });
   }
 });
+
+router.delete('/:id', async (req, res) => {
+  const { id } = req.params;
+  try {
+    await Article.findByIdAndDelete(id);
+  } catch (err) {
+    console.log(err);
+    res.status(400).redirect('/');
+  }
+  res.redirect('/');
+});
 module.exports = router;
